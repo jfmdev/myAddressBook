@@ -15,3 +15,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with ngAddressBook. If not, see <http://www.gnu.org/licenses/>.
  */
+body {
+    /*font-size: 14px;*/
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+}
+
+table.text-center th {
+    text-align: center;
+}
