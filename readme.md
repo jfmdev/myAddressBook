@@ -14,8 +14,12 @@ It was developed as a sample application for developers which want to learn how 
 Features
 --------
 
-Code
-----
+The application is very simple: it shows a list of contacts that can be updated, using a form, 
+or downloaded as a CSV file.
+
+When the application is opened, shows a list of all contacts;
+each contact as an "Edit" button which opens a form, in which the user can modify
+or delete the contact. Below the list of contacts, they are two buttons, one for add new contacts and another for export the current list as a CSV file.
 
 License
 -------

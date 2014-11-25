@@ -93,14 +93,16 @@ addressBookApp.controller('BookCtrl', function ($scope) {
         $scope.appState = "loading";
         
         // Ask for confirmation.
-        var del = confirm("Are you sure that you want to delete this contact?");
-        if(del) {
+        if(confirm("Are you sure that you want to delete this contact?")) {
             // Delete contact.
             DAL.delete($scope.activeEntry, function() {
                 // Once the contact has been deleted, refresh the list of contacts and show it.
                 $scope.showList(true);
             });
+        } else {
+            $scope.appState = "edit";
         }
+        
         return false;
     };
 
@@ -180,16 +182,4 @@ addressBookApp.controller('BookCtrl', function ($scope) {
 
     // Load list of contacts.
     $scope.showList(true);
-    
-    /**
-     * PENDIENTE
-     * - Terminar DAL para que los callback devuelvan los datos ya procesados
-     * - QUnit para DAL
-     * - Testing con Selenium
-     * 
-     * - Crear proyecto en Github
-     * - Subir proyecto a Github
-     * - Crear pagina del proyecto
-     * - Subir demo a esta pagina
-     */
 });
