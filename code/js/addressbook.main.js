@@ -15,35 +15,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with ngAddressBook. If not, see <http://www.gnu.org/licenses/>.
  */
+// Declare application.
 var addressBookApp = angular.module('addressBookApp', []);
-// https://docs.angularjs.org/tutorial/step_05
 
+// Define controller.
 addressBookApp.controller('BookCtrl', function ($scope) {
 
-    // Define initial state.
-    $scope.appState = 'list';
-  
-    // Get list of friends.
-    $scope.friends = [
-        { _id : 1,
-        name : "John",
-        email : "john@something.com",
-        phone : "12 34 56 78",
-        address : "Somewhere",
-        relative : true },
-        { _id : 2,
-        name : "Jane",
-        email : "jane@something.com",
-        phone : "01 23 45 67",
-        address : "Nowhere",
-        relative : false }
-    ];
-    $scope.friends = [];
-  
-    // Define object used for the edition form.
-    $scope.activeEntry = {};
+    // ----- Private functions ----- //
 
-    $scope.resetActiveEntry = function() {
+    /**
+     * Clears the values of the active entry.
+     */
+    resetActiveEntry = function() {
         $scope.activeEntry = {
             _id : null,
             name : "",
@@ -53,66 +36,151 @@ addressBookApp.controller('BookCtrl', function ($scope) {
             relative : false
         };
     };
-    $scope.resetActiveEntry();
     
-    // TENGO QUE MOSTRAR UN MENU DE ESPERA CADA VEZ QUE SE ESPERE A UN CALLBACK
-    // TAL VEZ CON UN appState = 'loading'.
+    /**
+     * Converts a value into an string suitable to be used as a field in a CSV file.
+     * 
+     * @param {mixed} value A value.
+     * @returns {String} An string to be used in a CSV file.
+     */
+    function toCsvField(value) {
+        // Cast to string.
+        var res = value !== null && value !== undefined? value.toString() : '';
+        
+        // Replace double quotes.
+        res = res.replace(new RegExp('"', 'g'), "'");
+        
+        // Add double quotes and return.
+        return '"' + res + '"';
+    }
     
+    // ----- Scope functions ----- //
+    
+    /**
+     * Shows the list of contacts.
+     * 
+     * @param {type} reload
+     * @returns {Boolean} Always returns 'false'.
+     */
     $scope.showList = function(reload) {
+        // Verify if the list of contacts must be reloaded from the database or if only must be show.
         if(reload === true) {
+            // Change the state to loading.
             $scope.appState = "loading";
+            
+            // Read the list of contacts from the database.
             DAL.list(function(err, response) {
-                console.log("showList - " + err + " - " + response);
+                // Parse result.
                 $scope.friends.length = 0;
                 for(var i=0; i<response.rows.length; i++) {
                     $scope.friends.push(response.rows[i].value);
                 }
+                
+                // Change state to list and notify angular.
                 $scope.appState = "list";
                 $scope.$apply();
             });
         } else {
+            // Change the state to list.
             $scope.appState = "list";
         }
         return false;
     };
-    $scope.showList(true);
     
+    /**
+     * 
+     * @returns {Boolean} Always returns 'false'.
+     */
     $scope.deleteEntry = function() {
+        // Change state to loading.
         $scope.appState = "loading";
+        
+        // Ask for confirmation.
         var del = confirm("Are you sure that you want to delete this contact?")
         if(del) {
+            // Delete contact.
             DAL.delete($scope.activeEntry, function(err, response) {
+                // Once the contact has been deleted, refresh the list of contacts and show it.
                 $scope.showList(true);
             });
         }
         return false;
     };
 
+    /**
+     * Save the contact that is currently being edited.
+     * 
+     * @returns {Boolean} Always returns 'false'.
+     */
     $scope.saveEntry = function() {
+        // Change state to loading.
         $scope.appState = "loading";
+        
+        // Save contact.
         DAL.save($scope.activeEntry, function(res, doc) {
-            console.log("saveEntry " + res +" - " + doc + " -- " + Object.keys(doc) + " -- " + Object.keys($scope.activeEntry));
+            // Once the contact has been saved, refresh the list of contacts and show it.
             $scope.showList(true);
         });
         return false;
     };
     
-
+    /**
+     * Open a form to edit a contact.
+     * 
+     * @param {string} id The id of the contact to edit.
+     * @returns {Boolean} Always returns 'false'.
+     */
     $scope.editEntry = function(id) {
+        // Change the state to loading.
         $scope.appState = "loading";
+        
+        // Verify if is a new contact or not.
         if(id !== null && id !== undefined) {
-            console.log("editEntry - update " + id);
+            // Is an existing contact, load it from the database.
             DAL.get(id, function(err, doc) {
-               $scope.activeEntry = doc;
-               console.log("editEntry - update = " + doc);
-               $scope.appState = "edit";
-               $scope.$apply();
+                // Set contact info to form.
+                $scope.activeEntry = doc;
+               
+                // Change state to edit and notify to angular.
+                $scope.appState = "edit";
+                $scope.$apply();
             });            
         } else {
-            console.log("editEntry - new");
-            $scope.resetActiveEntry();
+            // Is a new contact, clear the form.
+            resetActiveEntry();
+            
+            // Change state to edit.
             $scope.appState = "edit";
         }
         return false;
     };
+    
+    /**
+     * Downloads the current list of friends as a CSV file.
+     */
+    $scope.download = function() {
+        // Generate CSV date.
+        var csv = '"Name","Phone","Address","Email","Relative"\n';
+        for(var i=0; i<$scope.friends.length; i++) {
+            csv += toCsvField($scope.friends[i].name) + ',';
+            csv += toCsvField($scope.friends[i].phone) + ',';
+            csv += toCsvField($scope.friends[i].address) + ',';
+            csv += toCsvField($scope.friends[i].email) + ',';
+            csv += toCsvField($scope.friends[i].relative) + '\n';
+        }
+        
+        // Generate CSV file.
+        var blob = new Blob([csv], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, "address_book.csv");
+    };
+    
+    // ----- Initilization ----- //
+
+    // Initialize variables.
+    $scope.appState = 'list';
+    $scope.friends = [];
+    $scope.activeEntry = {};
+
+    // Load list of contacts.
+    $scope.showList(true);
 });
