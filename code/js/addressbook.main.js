@@ -69,12 +69,9 @@ addressBookApp.controller('BookCtrl', function ($scope) {
             $scope.appState = "loading";
             
             // Read the list of contacts from the database.
-            DAL.list(function(err, response) {
-                // Parse result.
-                $scope.friends.length = 0;
-                for(var i=0; i<response.rows.length; i++) {
-                    $scope.friends.push(response.rows[i].value);
-                }
+            DAL.list(function(rows) {
+                // Assign value.
+                $scope.friends = rows;
                 
                 // Change state to list and notify angular.
                 $scope.appState = "list";
@@ -96,10 +93,10 @@ addressBookApp.controller('BookCtrl', function ($scope) {
         $scope.appState = "loading";
         
         // Ask for confirmation.
-        var del = confirm("Are you sure that you want to delete this contact?")
+        var del = confirm("Are you sure that you want to delete this contact?");
         if(del) {
             // Delete contact.
-            DAL.delete($scope.activeEntry, function(err, response) {
+            DAL.delete($scope.activeEntry, function() {
                 // Once the contact has been deleted, refresh the list of contacts and show it.
                 $scope.showList(true);
             });
@@ -117,7 +114,7 @@ addressBookApp.controller('BookCtrl', function ($scope) {
         $scope.appState = "loading";
         
         // Save contact.
-        DAL.save($scope.activeEntry, function(res, doc) {
+        DAL.save($scope.activeEntry, function() {
             // Once the contact has been saved, refresh the list of contacts and show it.
             $scope.showList(true);
         });
@@ -137,7 +134,7 @@ addressBookApp.controller('BookCtrl', function ($scope) {
         // Verify if is a new contact or not.
         if(id !== null && id !== undefined) {
             // Is an existing contact, load it from the database.
-            DAL.get(id, function(err, doc) {
+            DAL.get(id, function(doc) {
                 // Set contact info to form.
                 $scope.activeEntry = doc;
                
@@ -183,4 +180,16 @@ addressBookApp.controller('BookCtrl', function ($scope) {
 
     // Load list of contacts.
     $scope.showList(true);
+    
+    /**
+     * PENDIENTE
+     * - Terminar DAL para que los callback devuelvan los datos ya procesados
+     * - QUnit para DAL
+     * - Testing con Selenium
+     * 
+     * - Crear proyecto en Github
+     * - Subir proyecto a Github
+     * - Crear pagina del proyecto
+     * - Subir demo a esta pagina
+     */
 });

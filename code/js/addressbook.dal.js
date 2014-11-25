@@ -35,7 +35,18 @@ DAL.allFun = function (doc) {
  * @param {function} callback The function that is called when the operation has been done.
  */
 DAL.list = function (callback) {
-    myDb.query(DAL.allFun, callback);
+    myDb.query(DAL.allFun, function(err, response) {
+        // Parse result.
+        var res = [];
+        for(var i=0; i<response.rows.length; i++) {
+            res.push(response.rows[i].value);
+        }
+        
+        // Invoke callback.
+        if(callback !== null && callback !== undefined) {
+            callback(res);
+        }
+    });
 };
 
 /**
@@ -46,7 +57,9 @@ DAL.list = function (callback) {
  * @returns {object} A contact
  */
 DAL.get = function (id, callback) {
-    myDb.get(id, callback);
+    myDb.get(id, function(err, doc) {
+        if(callback !== null && callback !== undefined) callback(doc);
+    });
 };
 
 /**
@@ -56,7 +69,32 @@ DAL.get = function (id, callback) {
  * @param {function} callback The function that is called when the operation has been done.
  */
 DAL.delete = function (doc, callback) {
-    myDb.remove(doc._id, doc._rev, callback); 
+    myDb.remove(doc._id, doc._rev, function(err, response) {
+        if(callback !== null && callback !== undefined) callback();
+    }); 
+};
+
+/**
+ * Deletes all contacts.
+ * 
+ * @param {function} callback The function that is called when the operation has been done.
+ */
+DAL.deleteAll = function (callback) {
+    DAL.list(function(rows) {
+        // Verify that the database is not empty.
+        if(rows !== null && rows !== undefined && rows.length > 0) {
+            // Set the deleted field to true.
+            for(var i=0; i<rows.length; i++) {
+                rows[i]._deleted = true;
+            }
+            
+            // Update all docs.
+            myDb.bulkDocs(rows, function(err, response) {
+                // Invoke callback.
+                if(callback !== null && callback !== undefined) callback();
+            });
+        }
+    });
 };
 
 /**
@@ -72,5 +110,7 @@ DAL.save = function (doc, callback) {
     }
     
     // Save contact.
-    myDb.put(doc, doc.id, callback);
+    myDb.put(doc, doc.id, function(err, response) {
+        if(callback !== null && callback !== undefined) callback();
+    });
 };

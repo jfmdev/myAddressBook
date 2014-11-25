@@ -25,13 +25,82 @@
     <link rel="stylesheet" href="qunit-1.15.0.css">
     <script type="text/javascript" src="qunit-1.15.0.js"></script>
 
-    <!-- Library to test -->
-    <script type="text/javascript" src="../code/js/dal.js"></script>
+    <!-- Library to test and their dependencies -->
+    <script type="text/javascript" src="../../code/js/pouchdb-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../../code/js/addressbook.dal.js"></script>
     
     <!-- Unit tests -->
     <script type="text/javascript">
-        QUnit.test( "hello test", function( assert ) {
-            assert.ok( 1 == "1", "Passed!" );
+        
+        QUnit.asyncTest("CRUD test", function(assert) {
+            expect(1 + 5 + 2 + 2);
+            
+            // Declare doc.
+            var myDoc = {_id: 'id.' + new Date().getTime(), name: 'myName', number: 2};
+
+            // Save the doc.
+            DAL.save(myDoc, function() {
+                assert.ok( true, "Document seems to have been saved" );
+                
+                // Read the doc.
+                DAL.get(myDoc._id, function(gettedDoc) {
+                    assert.ok(true, "Document read");
+                    assert.ok(gettedDoc._rev !== null && gettedDoc._rev !== undefined, "Revision is not null");
+                    assert.equal(gettedDoc._id, myDoc._id, "The field '_id' matches" );
+                    assert.equal(gettedDoc.name, myDoc.name, "The field 'name' matches" );
+                    assert.equal(gettedDoc.number, myDoc.number, "The field 'number' matches" );
+                    
+                    // Changes the doc.
+                    myDoc._rev = gettedDoc._rev;
+                    myDoc.name = 'hola';
+                    myDoc.number = 9;
+
+                    // Update doc.
+                    DAL.save(myDoc, function() {
+                        // After the doc has been updated, read it to see the changes.
+                        DAL.get(myDoc._id, function(gettedDoc2) {
+                            assert.equal(gettedDoc2.name, myDoc.name, "The field 'name' matches" );
+                            assert.equal(gettedDoc2.number, myDoc.number, "The field 'number' matches" );
+                            myDoc._rev = gettedDoc2._rev;
+                           
+                            // Delete doc.
+                            DAL.delete(myDoc, function() {
+                                assert.ok( true, "Document seems to have been deleted" );
+                                DAL.get(myDoc._id, function(gettedDoc) {
+                                    assert.equal(gettedDoc, null, "Document have been deleted" );
+                                    QUnit.start();
+                                });                            
+                            });                            
+                        });
+                    });
+                });
+            });
+        });
+        
+        
+        QUnit.asyncTest( "List test", function(assert) {
+            expect(2);
+
+            // Clean database.
+            DAL.deleteAll(function() {
+                assert.ok(true, "Database cleaned");
+                
+                // Declare two docs.
+                var myDoc = {_id: 'id.' + new Date().getTime(), name: 'myName', number: 2};
+                var otherDoc = {_id: 'id-' + new Date().getTime(), name: 'otherName', number: 5};
+                
+                // Save first doc.
+                DAL.save(myDoc, function() {
+                    // Save second doc.
+                    DAL.save(otherDoc, function() {
+                        // Once the second doc has been saved, get the list of documents.
+                        DAL.list(function(rows) {
+                            assert.equal(rows.length, 2, "Both docs have been retrieved" );
+                            QUnit.start();
+                        });
+                    });
+                });
+            });
         });
     </script>
 </head>
