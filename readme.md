@@ -11,6 +11,8 @@ It was developed as a sample application for developers which want to learn how 
  * Make unit tests with QUnit.
  * Make unit tests with Selenium IDE.
 
+[Live demo](http://jfmdev.github.io/ngAddressBook/ "ngAddressBook - Live demo")
+
 Features
 --------
 
@@ -20,6 +22,11 @@ or downloaded as a CSV file.
 When the application is opened, shows a list of all contacts;
 each contact as an "Edit" button which opens a form, in which the user can modify
 or delete the contact. Below the list of contacts, they are two buttons, one for add new contacts and another for export the current list as a CSV file.
+
+Support
+-------
+
+Since this application makes use of AngularJS, Bootstrap and PouchDB, his browser support is restrained to the browsers supporter by this three technologies (i.e. probably is not going to work well in older browsers).
 
 License
 -------
