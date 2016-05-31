@@ -8,8 +8,6 @@ It was developed as a sample application for developers which want to learn how 
  * Develop single page applications with AngularJS
  * Use Bootstrap for create user interfaces.
  * Use PouchDB for client-side storage.
- * Make unit tests with QUnit.
- * Make unit tests with Selenium IDE.
 
 [Live demo](http://jfmdev.github.io/ngAddressBook/ "ngAddressBook - Live demo")
 

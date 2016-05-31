@@ -4,12 +4,11 @@ ngAddressBook
 Code organization
 -----------------
 
-The source code of **ngAddressBook** is distributed into four files:
+The source code of **ngAddressBook** is distributed into seven files:
 
- * _index.html_ which defines the application's view and gathers all the application's files.
- * _addressbook.main.js_ which contains the application's logic.
- * _addressbook.dal.js_ which is an abstraction layer between the application and the code related to PouchDB.
- * _addressboos.css_ which contains a few lines of CSS code.
+ * _index.html_, _list.html_ and _edit.html_ which defines the application's view.
+ * _main.js_, _controllers.js_ and _dal.js_ which contains the application's logic.
+ * _main.css_ which contains a few lines of CSS code.
 
 Dependencies
 ------------
