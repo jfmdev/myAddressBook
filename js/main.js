@@ -15,14 +15,22 @@
  *  You should have received a copy of the GNU General Public License
  *  along with ngAddressBook. If not, see <http://www.gnu.org/licenses/>.
  */
-h1 {
-    font-family: 'Pacifico', cursive;
-}
+ // Declare module.
+var myApp = angular.module('addressBookApp', ['module.Controllers', 'ngRoute']);
 
-table.text-center tbody tr td {
-    vertical-align: middle;
-}
+// Define routes.
+myApp.config(['$routeProvider', function($routeProvider) {
+    $routeProvider
+        .when('/list', {
+            controller: 'ListController',
+            templateUrl: 'views/list.html'
+        })
+        .when('/edit/:id?', {
+            controller: 'EditController',
+            templateUrl: 'views/edit.html'
+        })
+        .otherwise({
+            redirectTo: '/list'
+        });
+}]);
 
-table.text-center th {
-    text-align: center;
-}
