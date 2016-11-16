@@ -9,8 +9,8 @@ myAddressBook
 
 [Live demo](http://jfmdev.github.io/myAddressBook/ "myAddressBook - Live demo")
 
-> Note that in this branch uses AngularJS as JavaScript framework.  
-> If you want to check the version implemented with React, you should go to the [react](https://github.com/jfmdev/ngAddressBook/tree/react) branch.
+> Note that in this branch uses React as JavaScript framework.  
+> If you want to check the version implemented with AngularJS, you should go to the [angular](https://github.com/jfmdev/ngAddressBook/tree/angular) branch.
 
 Features
 --------
@@ -24,7 +24,7 @@ or delete the contact. Below the list of contacts, they are two buttons, one for
 Browser support
 ---------------
 
-Since this application makes use of AngularJS, Bootstrap and PouchDB, browser support is restrained to browsers supported by these three technologies (i.e. probably is not going to work well in older browsers).
+Since this application makes use of React, Bootstrap and PouchDB, browser support is restrained to browsers supported by these three technologies (i.e. it should work fine on any modern browser).
 
 License
 -------

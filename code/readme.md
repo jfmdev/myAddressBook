@@ -15,7 +15,7 @@ Dependencies
 
 The application makes uses of the following libraries and frameworks:
 
- * _AngularJS_ as MVC framework.
+ * _React_ as MVC framework.
  * _Bootstrap_ as front-end framework.
  * _PouchDB_ as database.
  * _jQuery_ since it is required by Bootstrap.
