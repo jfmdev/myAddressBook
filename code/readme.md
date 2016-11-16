@@ -1,14 +1,14 @@
-ngAddressBook
+myAddressBook
 =============
 
 Code organization
 -----------------
 
-The source code of **ngAddressBook** is distributed into seven files:
+The source code of **myAddressBook** is distributed into seven files:
 
- * _index.html_, _list.html_ and _edit.html_ which defines the application's view.
- * _main.js_, _controllers.js_ and _dal.js_ which contains the application's logic.
- * _main.css_ which contains a few lines of CSS code.
+ * `index.html`, `list.html` and `edit.html` define the application's view.
+ * `main.js`, `controllers.js` and `dal.js` contain the application's logic.
+ * `main.css` contains a few lines of CSS code.
 
 Dependencies
 ------------
