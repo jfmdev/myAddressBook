@@ -15,23 +15,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with myAddressBook. If not, see <http://www.gnu.org/licenses/>.
  */
-h1 {
-    font-family: 'Pacifico', cursive;
-}
-
-.blockUI {
-    border-radius: 10px;
-}
-
-.blockUI h1 {
-    font-size: 28px;
-    font-family: Arial;
-}
-
-table.text-center tbody tr td {
-    vertical-align: middle;
-}
-
-table.text-center th {
-    text-align: center;
-}
+var App = React.createClass({
+    render: function() {
+        return (
+            <div className="container">
+                <h1 className="text-center">Address book</h1>
+                <div>
+                    {this.props.children}
+                </div>
+            </div>
+        )
+    }
+});

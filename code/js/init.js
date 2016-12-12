@@ -1,3 +1,5 @@
+"use strict";
+
 /*
  *  Copyright (C) 2014 Jose F. Maldonado
  *  This file is part of myAddressBook.
@@ -15,23 +17,25 @@
  *  You should have received a copy of the GNU General Public License
  *  along with myAddressBook. If not, see <http://www.gnu.org/licenses/>.
  */
-h1 {
-    font-family: 'Pacifico', cursive;
-}
+// Load dependencies.
+var _ReactRouter = ReactRouter,
+    Router = _ReactRouter.Router,
+    Route = _ReactRouter.Route,
+    IndexRoute = _ReactRouter.IndexRoute,
+    IndexLink = _ReactRouter.IndexLink,
+    Link = _ReactRouter.Link,
+    browserHistory = _ReactRouter.browserHistory;
 
-.blockUI {
-    border-radius: 10px;
-}
+// Declare routes.
 
-.blockUI h1 {
-    font-size: 28px;
-    font-family: Arial;
-}
-
-table.text-center tbody tr td {
-    vertical-align: middle;
-}
-
-table.text-center th {
-    text-align: center;
-}
+ReactDOM.render(React.createElement(
+    Router,
+    { history: browserHistory },
+    React.createElement(
+        Route,
+        { path: "/", component: App },
+        React.createElement(IndexRoute, { component: ListEntries }),
+        React.createElement(Route, { path: "list", component: ListEntries }),
+        React.createElement(Route, { path: "edit(/:id)", component: EditEntry })
+    )
+), document.getElementById('root'));

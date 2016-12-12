@@ -15,23 +15,21 @@
  *  You should have received a copy of the GNU General Public License
  *  along with myAddressBook. If not, see <http://www.gnu.org/licenses/>.
  */
-h1 {
-    font-family: 'Pacifico', cursive;
-}
+ // Load dependencies.
+ var { Router,
+      Route,
+      IndexRoute,
+      IndexLink,
+      Link,
+      browserHistory } = ReactRouter;
 
-.blockUI {
-    border-radius: 10px;
-}
-
-.blockUI h1 {
-    font-size: 28px;
-    font-family: Arial;
-}
-
-table.text-center tbody tr td {
-    vertical-align: middle;
-}
-
-table.text-center th {
-    text-align: center;
-}
+// Declare routes.
+ReactDOM.render((
+    <Router history={browserHistory}>
+        <Route path="/" component={App}>
+            <IndexRoute component={ListEntries}/>
+            <Route path="list" component={ListEntries} />
+            <Route path="edit(/:id)" component={EditEntry} />
+        </Route>
+    </Router>
+), document.getElementById('root'));

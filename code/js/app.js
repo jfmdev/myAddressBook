@@ -1,3 +1,5 @@
+"use strict";
+
 /*
  *  Copyright (C) 2014 Jose F. Maldonado
  *  This file is part of myAddressBook.
@@ -15,22 +17,21 @@
  *  You should have received a copy of the GNU General Public License
  *  along with myAddressBook. If not, see <http://www.gnu.org/licenses/>.
  */
- // Declare module.
-var myApp = angular.module('addressBookApp', ['module.Controllers', 'ngRoute']);
-
-// Define routes.
-myApp.config(['$routeProvider', function($routeProvider) {
-    $routeProvider
-        .when('/list', {
-            controller: 'ListController',
-            templateUrl: 'views/list.html'
-        })
-        .when('/edit/:id?', {
-            controller: 'EditController',
-            templateUrl: 'views/edit.html'
-        })
-        .otherwise({
-            redirectTo: '/list'
-        });
-}]);
-
+var App = React.createClass({
+    render: function render() {
+        return React.createElement(
+            "div",
+            { className: "container" },
+            React.createElement(
+                "h1",
+                { className: "text-center" },
+                "Address book"
+            ),
+            React.createElement(
+                "div",
+                null,
+                this.props.children
+            )
+        );
+    }
+});

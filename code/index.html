@@ -31,31 +31,30 @@
         <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
         <link href="lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
 
-        <!-- AngularJS -->
-        <script src="lib/angular.min.js" type="text/javascript"></script>
-        <script src="lib/angular-route.min.js" type="text/javascript"></script>
-
-        <!-- Block UI -->
-        <link href="lib/block-ui/angular-block-ui.min.css" rel="stylesheet" />
-        <script src="lib/block-ui/angular-block-ui.min.js" type="text/javascript"></script>
-
-        <!-- PouchDB -->
+        <!-- React -->
+        <script src="lib/react.min.js" type="text/javascript"></script>
+        <script src="lib/react-dom.min.js" type="text/javascript"></script>
+        <script src="lib/react-router.min.js" type="text/javascript"></script>
+        
+        <!-- Miscellaneous libraries -->
         <script src="lib/pouchdb-5.3.2.min.js" type="text/javascript"></script>
-
-        <!-- Libraries for download files -->
+        <script src="lib/block-ui.min.js" type="text/javascript"></script>
         <script src="lib/Blob.js" type="text/javascript"></script>
         <script src="lib/FileSaver.js" type="text/javascript"></script>
 
-        <!-- App -->
+        <!-- App (stylehsheet) -->
         <link href="css/main.css" rel="stylesheet" />
-        <script src="js/dal.js" type="text/javascript"></script>
-        <script src="js/controllers.js" type="text/javascript"></script>
-        <script src="js/main.js" type="text/javascript"></script>
     </head>
-    <body ng-app="addressBookApp">
-        <div class="container">
-            <h1 class="text-center">Address book</h1>
-            <div ng-view></div>
+    <body>
+        <div id="root">
+        
         </div>
+        
+        <!-- App (logic) -->
+        <script src="js/dal.js" type="text/javascript"></script>
+        <script src="js/edit.entry.js" type="text/javascript"></script>
+        <script src="js/list.entries.js" type="text/javascript"></script>
+        <script src="js/app.js" type="text/javascript"></script>
+        <script src="js/init.js" type="text/javascript"></script>
     </body>
 </html>
