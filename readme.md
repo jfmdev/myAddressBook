@@ -7,7 +7,7 @@ myAddressBook
  * Use Bootstrap for create user interfaces.
  * Use PouchDB for client-side storage.
 
-[Live demo](http://jfmdev.github.io/myAddressBook/ "myAddressBook - Live demo")
+[Live demo](http://jfmdev.github.io/myAddressBook/react/ "myAddressBook - Live demo")
 
 > Note that in this branch uses React as JavaScript framework.  
 > If you want to check the version implemented with AngularJS, you should go to the [angular](https://github.com/jfmdev/ngAddressBook/tree/angular) branch.
