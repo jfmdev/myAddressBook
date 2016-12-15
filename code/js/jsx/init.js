@@ -21,11 +21,11 @@
       IndexRoute,
       IndexLink,
       Link,
-      browserHistory } = ReactRouter;
-
+      hashHistory } = ReactRouter;
+      
 // Declare routes.
 ReactDOM.render((
-    <Router history={browserHistory}>
+    <Router history={hashHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={ListEntries}/>
             <Route path="list" component={ListEntries} />

@@ -24,13 +24,13 @@ var _ReactRouter = ReactRouter,
     IndexRoute = _ReactRouter.IndexRoute,
     IndexLink = _ReactRouter.IndexLink,
     Link = _ReactRouter.Link,
-    browserHistory = _ReactRouter.browserHistory;
+    hashHistory = _ReactRouter.hashHistory;
 
 // Declare routes.
 
 ReactDOM.render(React.createElement(
     Router,
-    { history: browserHistory },
+    { history: hashHistory },
     React.createElement(
         Route,
         { path: "/", component: App },
