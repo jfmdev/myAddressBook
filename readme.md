@@ -3,14 +3,14 @@ myAddressBook
 
 **myAddressBook** is an _address book_ HTML5 app, developed as a sample application for developers which want to learn how to:
 
- * Develop single page applications with AngularJS or React.
+ * Develop single page applications with Angular, AngularJS or React.
  * Use Bootstrap for create user interfaces.
  * Use PouchDB for client-side storage.
 
 [Live demo](http://jfmdev.github.io/myAddressBook/angular/ "myAddressBook - Live demo")
 
-> Note that in this branch uses AngularJS as JavaScript framework.  
-> If you want to check the version implemented with React, you should go to the [react](https://github.com/jfmdev/ngAddressBook/tree/react) branch.
+> Note that this branch uses AngularJS as JavaScript framework.  
+> But they are other branches that use [Angular](https://github.com/jfmdev/ngAddressBook/tree/angular) and [React](https://github.com/jfmdev/ngAddressBook/tree/react).
 
 Features
 --------
