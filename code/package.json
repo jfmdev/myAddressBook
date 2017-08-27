@@ -1,7 +1,7 @@
 {
-  "name": "addressbook",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "myaddressbook",
+  "version": "1.0.0",
+  "license": "GPL-3.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -21,7 +21,11 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
+    "jquery": "^1.12.4",
+    "ng-block-ui": "^0.9.1",
+    "pouchdb-browser": "^6.3.4",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },
