@@ -1,32 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DalService } from './dal.service';
 import { Contact } from './contact';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [DalService]
 })
 
-export class AppComponent {
-  selectedFriend: Contact = null;
-  friends: Contact[] = [
-    {
-      name: 'John',
-      phone: '123',
-      address: 'Fake street',
-      email: 'mail@mail',
-      relative: true
-    },
-    {
-      name: 'Jane',
-      phone: '456',
-      address: 'Fake street',
-      email: 'mail@mail',
-      relative: true
-    }
-  ];
-  onSelect(friend: Contact): void {
-    this.selectedFriend = friend;
-  } 
+export class AppComponent implements OnInit {
+  friends: Contact[];
+
+  constructor(private dalService: DalService) {
+  }
+
+  ngOnInit(): void {
+    this.dalService.getContacts().then(contacts => {
+      this.friends = contacts;
+    });
+  }
 }
 

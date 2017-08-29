@@ -10,6 +10,7 @@ export class ContactListComponent {
   @Input() friends: Contact[];
   
   selectedFriend: Contact = null;
+
   onSelect(friend: Contact): void {
     this.selectedFriend = friend;
   } 
