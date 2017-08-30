@@ -16,8 +16,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dalService.getContacts().then(contacts => {
-      this.friends = contacts;
+    this.dalService.list().then(result => {
+      this.friends = result;
     });
   }
 }

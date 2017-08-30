@@ -19,8 +19,8 @@
                     <td>{{friend.email}}</td>
                     <td>{{friend.address}}</td> 
                     <td>
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-hide="!friend.relative"></span>
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-hide="friend.relative"></span>
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true" *ngIf="friend.relative"></span>
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true" *ngIf="!friend.relative"></span>
                     </td>
                     <td>
                         <a class="btn btn-default" (click)="onSelect(friend)">Edit</a>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="text-right">    
-        <button type="submit" class="btn btn-default" ng-click="download()" id="list_btn_download" aria-hidden="true" ng-hide="friends.length <= 0">
+        <button type="submit" class="btn btn-default" ng-click="download()" id="list_btn_download" aria-hidden="true" [hidden]="friends.length <= 0">
             <span class="glyphicon glyphicon-download"></span>
             Download CSV
         </button>
