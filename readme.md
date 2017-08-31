@@ -7,7 +7,7 @@ myAddressBook
  * Use Bootstrap for create user interfaces.
  * Use PouchDB for client-side storage.
 
-[Live demo](http://jfmdev.github.io/myAddressBook/angular/ "myAddressBook - Live demo")
+[Live demo](http://jfmdev.github.io/myAddressBook/angularjs/ "myAddressBook - Live demo")
 
 > Note that this branch uses AngularJS as JavaScript framework.  
 > But they are other branches that use [Angular](https://github.com/jfmdev/ngAddressBook/tree/angular) and [React](https://github.com/jfmdev/ngAddressBook/tree/react).
