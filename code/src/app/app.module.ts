@@ -1,10 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
+import { DalService } from './dal.service';
+
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,9 +18,13 @@ import { ContactListComponent } from './contact-list/contact-list.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule 
+    FormsModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    DalService
+  ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

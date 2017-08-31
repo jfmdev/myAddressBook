@@ -1,4 +1,4 @@
-<div *ngIf="friends">
+<div>
     <div class="panel panel-success">
         <div class="panel-heading">List of contacts</div>
         <table class="table table-striped table-bordered text-center">
@@ -23,7 +23,7 @@
                         <span class="glyphicon glyphicon-remove" aria-hidden="true" *ngIf="!friend.relative"></span>
                     </td>
                     <td>
-                        <a class="btn btn-default" (click)="onSelect(friend)">Edit</a>
+                        <a class="btn btn-default" [routerLink]="['/edit', friend._id]">Edit</a>
                     </td>
                 </tr>
             </tbody>
@@ -31,17 +31,13 @@
     </div>
 
     <div class="text-right">    
-        <button type="submit" class="btn btn-default" ng-click="download()" id="list_btn_download" aria-hidden="true" [hidden]="friends.length <= 0">
+        <button type="submit" class="btn btn-default" ng-click="download()" id="list_btn_download" aria-hidden="true" *ngIf="friends && friends.length > 0">
             <span class="glyphicon glyphicon-download"></span>
             Download CSV
         </button>
-        <a class="btn btn-default" href="#/edit/">
+        <a class="btn btn-default" [routerLink]="['/edit']">
             <span class="glyphicon glyphicon-plus"></span>
             New contact
         </a>
     </div>
-</div>
-
-<div [hidden]="!selectedFriend">
-  <contact-details [myFriend]="selectedFriend"></contact-details>
 </div>

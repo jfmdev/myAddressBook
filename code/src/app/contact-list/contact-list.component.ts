@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { DalService } from '../dal.service';
 import { Contact } from '../contact';
 
 @Component({
@@ -6,12 +7,15 @@ import { Contact } from '../contact';
   templateUrl: './contact-list.component.html'
 })
 
-export class ContactListComponent {
-  @Input() friends: Contact[];
-  
-  selectedFriend: Contact = null;
+export class ContactListComponent implements OnInit {
+  friends: Contact[];
 
-  onSelect(friend: Contact): void {
-    this.selectedFriend = friend;
-  } 
+  constructor(private dalService: DalService) {
+  }
+  
+  ngOnInit(): void {
+    this.dalService.list().then(result => {
+      this.friends = result;
+    });
+  }
 }

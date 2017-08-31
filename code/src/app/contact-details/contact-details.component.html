@@ -1,4 +1,4 @@
-<div class="row" *ngIf="myFriend">
+<div class="row">
     <div class="col-md-6 col-md-offset-3 container">
         <div class="panel panel-default panel-info">
             <div class="panel-heading">Edit person</div>
@@ -30,7 +30,7 @@
 
                     <div class="row">
                         <div class="col-md-4 text-center">
-                            <a class="btn btn-default" href="#/list">Cancel</a>
+                            <a class="btn btn-default" [routerLink]="['/list']">Cancel</a>
                         </div>
                         <div class="col-md-4 text-center">
                             <input type="button" class="btn btn-default" ng-click="delete(myFriend)" ng-show="activeEntry._id !== null" value="Delete"/>
