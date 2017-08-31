@@ -33,9 +33,9 @@ export class ContactDetailsComponent implements OnInit {
       }).subscribe(contact => this.myFriend = contact);
   }
 
-  save(contact: Contact) {
+  save(form: any, contact: Contact) {
     // Verify that the form is valid.
-    if(contact.name) {
+    if(!form.invalid) {
       // Block the user interface
       this.blockUI.start("Saving...");
 
