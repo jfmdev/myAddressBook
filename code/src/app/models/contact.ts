@@ -1,4 +1,5 @@
 export class Contact {
+  _id: string;
   name: string;
   phone: string;
   address: string;
@@ -6,6 +7,7 @@ export class Contact {
   relative: boolean;
   
  constructor() { 
+  this._id = null;
   this.name = '';
   this.phone = '';
   this.address = '';
