@@ -3,8 +3,8 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap'
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { Contact } from '../contact';
-import { DalService } from '../dal.service';
+import { Contact } from '../models/contact';
+import { DalService } from '../services/dal.service';
 
 @Component({
   selector: 'contact-details',

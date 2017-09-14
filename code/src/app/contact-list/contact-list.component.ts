@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { DalService } from '../dal.service';
-import { Contact } from '../contact';
+import { DalService } from '../services/dal.service';
+import { Contact } from '../models/contact';
 import * as saveAs from '../../../lib/FileSaver';
 
 @Component({

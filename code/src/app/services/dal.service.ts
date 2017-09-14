@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Contact } from './contact';
-import * as PouchDB from '../../lib/pouchdb-5.3.2.min';
+import { Contact } from './../models/contact';
+import * as PouchDB from '../../../lib/pouchdb-5.3.2.min';
 
 @Injectable()
 export class DalService {

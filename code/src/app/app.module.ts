@@ -8,7 +8,7 @@ import { BlockUIModule } from 'ng-block-ui';
 import { AppComponent } from './app.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
-import { DalService } from './dal.service';
+import { DalService } from './services/dal.service';
 
 import { AppRoutingModule } from './app-routing.module';
 
