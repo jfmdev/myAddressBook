@@ -10,7 +10,7 @@ myAddressBook
 [Live demo](http://jfmdev.github.io/myAddressBook/react/ "myAddressBook - Live demo")
 
 > Note that in this branch uses React as JavaScript framework.  
-> But they are other branches that use [Angular](https://github.com/jfmdev/ngAddressBook/tree/angular) and [AngularJS](https://github.com/jfmdev/ngAddressBook/tree/angularjs).
+> But they are other branches that use [Angular](https://github.com/jfmdev/ngAddressBook/tree/angular), [Angular with ngrx](https://github.com/jfmdev/ngAddressBook/tree/ngrx) and [AngularJS](https://github.com/jfmdev/ngAddressBook/tree/angularjs).
 
 Features
 --------
