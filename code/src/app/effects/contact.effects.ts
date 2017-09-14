@@ -33,12 +33,12 @@ export class ContactEffects {
     .ofType(ContactActions.SAVE_CONTACT)
     .map((action: UnsafeAction) => action.payload)
     .mergeMap(contact => this.svc.save(contact))
-    .mergeMap(contactId => this.svc.get(contactId))
+    .mergeMap(result => this.svc.get(result.id))
     .map(contact => this.contactActions.saveContactSuccess(contact));
 
   @Effect() deleteContact$: Observable<Action> = this.actions$
     .ofType(ContactActions.DELETE_CONTACT)
     .map((action: UnsafeAction) => action.payload)
-    .mergeMap(contact => this.svc.delete(contact.id))
-    .map(contact => this.contactActions.deleteContactSuccess(contact));
+    .mergeMap(contact => this.svc.delete(contact))
+    .map(result => this.contactActions.deleteContactSuccess(result));
 }

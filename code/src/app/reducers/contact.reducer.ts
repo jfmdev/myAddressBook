@@ -21,7 +21,7 @@ export function ContactReducer(state = initialState, action: UnsafeAction): Cont
   switch (action.type) {
     case ContactActions.RESET_BLANK_CONTACT: {
       return _.assign({}, state, {
-        contact: _.cloneDeep(initialState),
+        contact: _.cloneDeep(initialState.contact),
         loading: false,
         saving: false
       });

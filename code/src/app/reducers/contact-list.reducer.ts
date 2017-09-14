@@ -48,7 +48,7 @@ export function ContactListReducer(state = initialState, action: UnsafeAction): 
     case ContactActions.DELETE_CONTACT_SUCCESS: {
         return _.assign({}, state, {
           list: state.list.filter(contact => {
-            return contact._id !== action.payload._id;
+            return contact._id !== action.payload.id;
           })
         });
     }
