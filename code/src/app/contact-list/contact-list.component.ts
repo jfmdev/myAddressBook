@@ -1,29 +1,54 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { DalService } from '../services/dal.service';
-import { Contact } from '../models/contact';
 import * as saveAs from '../../../lib/FileSaver';
+
+import { Contact } from '../models/contact';
+import { ContactActions } from '../actions/contact.actions';
+import { AppState } from '../reducers/app-state'
+import { ContactListState } from '../reducers/contact-list.reducer';
 
 @Component({
   selector: 'contact-list',
   templateUrl: './contact-list.component.html'
 })
 
-export class ContactListComponent implements OnInit {
+export class ContactListComponent implements OnInit, OnDestroy {
+  contactListSubscription: any;
   friends: Contact[];
   @BlockUI() blockUI: NgBlockUI;
 
-  constructor(private dalService: DalService) {
+  constructor(
+    private store: Store<AppState>,
+    private contactActions: ContactActions
+    ) { 
   }
   
   ngOnInit(): void {
-    this.blockUI.start('Loading...');
-    this.dalService.list().then(result => {
-      this.friends = result;
-      this.blockUI.stop();
-    });
+    // Subscribe for changes on the contact list state.
+    let contactListObservable: Observable<ContactListState> = this.store.select('contactList');
+    this.contactListSubscription = contactListObservable.subscribe(
+      (next) => { 
+        this.friends = next.list;
+        
+        if(next.loading) {
+          this.blockUI.start('Loading...');
+        } else {
+          this.blockUI.stop();
+        }
+      }
+    );
+
+    // Load contacts.
+    this.store.dispatch(this.contactActions.loadContacts());
   }
-    
+
+  ngOnDestroy() {
+    this.contactListSubscription.unsubscribe();
+  }
+
   download(): void {
     // Generate CSV data.
     var csv = '"Name","Phone","Address","Email","Relative"\n';
