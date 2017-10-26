@@ -45,6 +45,26 @@ var EditEntry = function (_React$Component) {
         };
         _this.params = props.params;
 
+        // Subscribe to store.
+        _this.unsubscribe = Store.subscribe(function () {
+            // Get current store state.
+            var contactState = Store.getState().contactReducer;
+
+            // Update component state.
+            this.setState({ 'friend': contactState.contact });
+
+            // Show/hide loading dialog.
+            if (contactState.loading || contactState.saving) {
+                if (contactState.loading) {
+                    $.blockUI();
+                } else {
+                    $.blockUI();
+                }
+            } else {
+                $.unblockUI();
+            }
+        }.bind(_this));
+
         // Bind event handlers.
         _this._save = _this._save.bind(_this);
         _this._delete = _this._delete.bind(_this);
@@ -65,22 +85,20 @@ var EditEntry = function (_React$Component) {
         key: "componentDidMount",
         value: function componentDidMount() {
             if (this.params.id) {
-                $.blockUI();
-                FriendsDAL.get(this.params.id, function (res) {
-                    if (res == null) {
-                        res = {
-                            _id: null,
-                            name: "",
-                            email: "",
-                            phone: "",
-                            address: "",
-                            relative: false
-                        };
-                    }
-                    this.setState({ friend: res });
-                    $.unblockUI();
-                }.bind(this));
+                Store.dispatch(Actions.getContact(this.params.id));
+            } else {
+                Store.dispatch(Actions.resetBlankContact());
             }
+        }
+
+        /**
+         * Will unmount function.
+         */
+
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            this.unsubscribe();
         }
 
         /**
@@ -200,15 +218,8 @@ var EditEntry = function (_React$Component) {
         value: function _delete() {
             // Ask for confirmation.
             if (confirm("Are you sure that you want to delete this contact?")) {
-                // Block the user interface
-                $.blockUI();
-
-                // Delete contact.
-                FriendsDAL.delete(this.state.friend, function () {
-                    // Unblock the UI and display list of contacts.
-                    $.unblockUI();
-                    this.props.history.pushState(null, '/list');
-                }.bind(this));
+                Store.dispatch(Actions.deleteContact(this.state.friend));
+                this.props.history.pushState(null, '/list');
             }
         }
     }, {
@@ -219,15 +230,7 @@ var EditEntry = function (_React$Component) {
 
             // Verify that the form is valid.
             if (this.state.friend.name != null && this.state.friend.name != '') {
-                // Block the user interface
-                $.blockUI();
-
-                // Save contact.
-                FriendsDAL.save(this.state.friend, function () {
-                    // Unblock the UI and display list of contacts.
-                    $.unblockUI();
-                    this.props.history.pushState(null, '/list');
-                }.bind(this));
+                Store.dispatch(Actions.saveContact(this.state.friend));
             }
 
             return false;

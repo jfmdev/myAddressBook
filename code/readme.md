@@ -18,7 +18,8 @@ Dependencies
 The application makes uses of the following libraries and frameworks:
 
  * _React_ & _React Router_ as MVC framework.
+ * _Redux_ as state management library.
  * _Bootstrap_ as front-end framework.
- * _PouchDB_ as database.
  * _jQuery_ since it is required by Bootstrap.
+ * _PouchDB_ as database.
  * _Blob_ and _FileSaver_ in order to implement the downloading of files generated in the client.

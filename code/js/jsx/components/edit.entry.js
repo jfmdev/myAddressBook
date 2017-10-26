@@ -21,14 +21,34 @@ class EditEntry extends React.Component {
      */
     constructor(props) {
         super(props);
-        
+
         // Initialize state.
         this.state = { 
             friend: {},
             dirty: false
         };
         this.params = props.params;
-        
+
+        // Subscribe to store.
+        this.unsubscribe = Store.subscribe(function() {
+            // Get current store state.
+            var contactState = Store.getState().contactReducer;
+
+            // Update component state.
+            this.setState({'friend': contactState.contact});
+
+            // Show/hide loading dialog.
+            if(contactState.loading || contactState.saving) {
+                if(contactState.loading) {
+                    $.blockUI();
+                } else {
+                    $.blockUI();
+                }
+            } else {
+                $.unblockUI();
+            }
+        }.bind(this));
+
         // Bind event handlers.
         this._save = this._save.bind(this);
         this._delete = this._delete.bind(this);
@@ -37,35 +57,30 @@ class EditEntry extends React.Component {
         this._onAddressChange = this._onAddressChange.bind(this);
         this._onEmailChange = this._onEmailChange.bind(this);
         this._onRelativeChange = this._onRelativeChange.bind(this);
-    }     
+    }
 
     /**
      * Did mount function.
      */
     componentDidMount() {
         if(this.params.id) {
-            $.blockUI();
-            FriendsDAL.get(this.params.id, function(res) {  
-                if(res == null) {  
-                    res = {
-                        _id : null,
-                        name : "",
-                        email : "",
-                        phone : "",
-                        address : "",
-                        relative : false
-                    };
-                }
-                this.setState( { friend: res} );
-                $.unblockUI();
-            }.bind(this));
+            Store.dispatch(Actions.getContact(this.params.id));
+        } else {
+            Store.dispatch(Actions.resetBlankContact());
         }
     }
-    
+
+    /**
+     * Will unmount function.
+     */
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
     /**
      * Render function.
      */
-    render() {   
+    render() {
         // Return view.
         return (
             <div className="row">
@@ -116,42 +131,27 @@ class EditEntry extends React.Component {
             </div>
         );
     }
-    
+
     _delete() {
         // Ask for confirmation.
         if(confirm("Are you sure that you want to delete this contact?")) {
-            // Block the user interface
-            $.blockUI();
-
-            // Delete contact.
-            FriendsDAL.delete(this.state.friend, function() {
-                // Unblock the UI and display list of contacts.
-                $.unblockUI();
-                this.props.history.pushState(null, '/list');
-            }.bind(this));
+            Store.dispatch(Actions.deleteContact(this.state.friend));
+            this.props.history.pushState(null, '/list');
         }
     }
-    
-    _save(event) {        
+
+    _save(event) {
         // Prevent default action.
         event.preventDefault();
 
         // Verify that the form is valid.
         if(this.state.friend.name != null && this.state.friend.name != '') {
-            // Block the user interface
-            $.blockUI();
-
-            // Save contact.
-            FriendsDAL.save(this.state.friend, function() {
-                // Unblock the UI and display list of contacts.
-                $.unblockUI();
-                this.props.history.pushState(null, '/list');
-            }.bind(this));
+            Store.dispatch(Actions.saveContact(this.state.friend));
         }
-        
+
         return false;
     }
-    
+
     _onNameChange(event) { this.state.friend.name = event.target.value; this.setState({'friend': this.state.friend, 'dirty': true}); }
     _onPhoneChange(event) { this.state.friend.phone = event.target.value; this.setState({'friend': this.state.friend}); }
     _onAddressChange(event) { this.state.friend.address = event.target.value; this.setState({'friend': this.state.friend}); }

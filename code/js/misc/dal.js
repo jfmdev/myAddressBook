@@ -70,7 +70,7 @@ FriendsDAL.get = function (id, callback) {
 FriendsDAL.delete = function (doc, callback) {
     if(doc !== null && doc !== undefined) {
         FriendsDAL.myDb.remove(doc._id, doc._rev, function(err, response) {
-            if(callback !== null && callback !== undefined) callback();
+            if(callback !== null && callback !== undefined) callback(doc);
         }); 
     }
 };
@@ -117,6 +117,6 @@ FriendsDAL.save = function (doc, callback) {
     
     // Save contact.
     FriendsDAL.myDb.put(doc, doc.id, function(err, response) {
-        if(callback !== null && callback !== undefined) callback();
+        if(callback !== null && callback !== undefined) callback(response.id);
     });
 };

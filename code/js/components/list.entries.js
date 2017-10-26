@@ -48,11 +48,36 @@ var ListEntries = function (_React$Component) {
     _createClass(ListEntries, [{
         key: "componentDidMount",
         value: function componentDidMount() {
-            $.blockUI();
-            FriendsDAL.list(function (res) {
-                this.setState({ friends: res });
-                $.unblockUI();
-            }.bind(this));
+            var _this2 = this;
+
+            // Subscribe to store.
+            this.unsubscribe = Store.subscribe(function () {
+                // Get current store state.
+                var contactListState = Store.getState().contactListReducer;
+
+                // Update component state.
+                _this2.setState({ 'friends': contactListState.list });
+
+                // Show/hide loading dialog.
+                if (contactListState.loading) {
+                    $.blockUI();
+                } else {
+                    $.unblockUI();
+                }
+            });
+
+            // Dispatch event for load list.
+            Store.dispatch(Actions.loadContacts());
+        }
+
+        /**
+         * Will unmount function.
+         */
+
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            this.unsubscribe();
         }
 
         /**

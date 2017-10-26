@@ -20,7 +20,7 @@ class ListEntries extends React.Component {
      * Constructor function.
      */
     constructor(props) {
-        super(props);    
+        super(props);
         this.state = {};
     }     
 
@@ -28,13 +28,33 @@ class ListEntries extends React.Component {
      * Did mount function.
      */
     componentDidMount() {
-        $.blockUI();
-        FriendsDAL.list(function(res) {       
-            this.setState( { friends: res} );
-            $.unblockUI();
-        }.bind(this));
+        // Subscribe to store.
+        this.unsubscribe = Store.subscribe(() => {
+            // Get current store state.
+            var contactListState = Store.getState().contactListReducer;
+
+            // Update component state.
+            this.setState({'friends': contactListState.list});
+
+            // Show/hide loading dialog.
+            if(contactListState.loading) {
+                $.blockUI();
+            } else {
+                $.unblockUI();
+            }
+        });
+
+        // Dispatch event for load list.
+        Store.dispatch(Actions.loadContacts());
     }
-    
+
+    /**
+     * Will unmount function.
+     */
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
     /**
      * Render function.
      */
@@ -60,7 +80,7 @@ class ListEntries extends React.Component {
               </tr>)
           );
         }
-        
+
         // Return view.
         return (
             <div>
@@ -82,7 +102,7 @@ class ListEntries extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <div className="text-right">    
+                <div className="text-right">
                     { this.state.friends.length > 0 && <span>
                         <button type="submit" className="btn btn-default" onClick={this.downloadCsv.bind(this)}>
                             <span className="glyphicon glyphicon-download"></span>
@@ -111,7 +131,7 @@ class ListEntries extends React.Component {
             csv += this._toCsvField(this.state.friends[i].email) + ',';
             csv += this._toCsvField(this.state.friends[i].relative) + '\n';
         }
-        
+
         // Generate CSV file.
         var blob = new Blob([csv], {type: "text/plain;charset=utf-8"});
         saveAs(blob, "address_book.csv");
@@ -126,11 +146,11 @@ class ListEntries extends React.Component {
     _toCsvField(value) {
         // Cast to string.
         var res = value !== null && value !== undefined? value.toString() : '';
-        
+
         // Replace double quotes.
         res = res.replace(new RegExp('"', 'g'), "'");
-        
+
         // Add double quotes and return.
         return '"' + res + '"';
-    }    
+    }
 }
